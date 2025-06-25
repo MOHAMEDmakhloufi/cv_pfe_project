@@ -1,0 +1,63 @@
+path: /Users/macbook/PycharmProjects/pfe_project/data/processed/wotr_yolo_format
+
+train: images/train
+val: images/val
+test: images/test
+
+nc: 20  # number of classes
+
+names:
+  - fire_hydrant
+  - blind_road
+  - car
+  - sign
+  - pole
+  - green_light
+  - reflective_cone
+  - ashcan
+  - tree
+  - bus
+  - red_light
+  - warning_column
+  - motorcycle
+  - crosswalk
+  - dog
+  - tricycle
+  - person
+  - bicycle
+  - roadblock
+  - truck
+
+mobile :
+  - car
+  - bus
+  - motorcycle
+  - dog
+  - tricycle
+  - person
+  - person
+  - bicycle
+  - truck
+  - unknown
+
+static:
+  - fire_hydrant
+  - blind_road
+  - sign
+  - pole
+  - green_light
+  - reflective_cone
+  - ashcan
+  - tree
+  - red_light
+  - warning_column
+  - crosswalk
+  - roadblock
+  - unknown
+
+road_judging_objects:
+  - sign
+  - green_light
+  - red_light
+  - blind_road
+  - crosswalk

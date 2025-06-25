@@ -1,0 +1,8 @@
+video_source: "../data/external/sequence_walk_on_street.mp4"
+frames_processed_per_seconds: 15
+seconds_per_sequence: 4
+unknown_detection:
+  edge_margin: 0.2
+  box_h_threshold: 10
+
+

@@ -1,0 +1,8 @@
+yolo_model_path: "../data/external/best.pt"
+yolo_inference_conf: 0.7
+
+midas_model_type: "DPT_Hybrid"
+midas_device: "mps"
+depth_threshold_static_obj: 0.7
+depth_threshold_mobile_obj: 0.5
+

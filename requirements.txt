@@ -1,0 +1,7 @@
+opencv-python
+ultralytics
+PyYAML
+torch
+gTTS
+pygame
+numpy
