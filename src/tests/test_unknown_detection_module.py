@@ -68,7 +68,7 @@ if __name__ == '__main__':
     if not cap.isOpened():
         logger.error(f"Error: Could not open video source: {source}")
         exit()
-
+    frame_count = 0
     try:
         while True:
             ret, frame = cap.read()
@@ -84,7 +84,6 @@ if __name__ == '__main__':
             # Detect unknowns
             exists, bbox, contour_img = unknown_detector.has_unknown_object(normalized_depth, unknown_edge_margin, unknown_box_h_threshold)
             x2, y2, w2, h2 = bbox
-
             # Normalize depth map to 0–255 if needed
             depth_visual = unknown_detector._normalize_to_0_255(sample_depth_map)
             depth_visual = cv2.cvtColor(depth_visual, cv2.COLOR_GRAY2BGR)
@@ -95,19 +94,19 @@ if __name__ == '__main__':
             else:
                 cv2.rectangle(depth_visual, (x2, y2), (x2 + w2, y2 + h2), (0, 0, 255), 2)
                 cv2.rectangle(contour_img, (x2, y2), (x2 + w2, y2 + h2), (0, 0, 255), 2)
-
             # Draw Boundaries
             contour_img_boundaries = draw_boundaries(contour_img, unknown_edge_margin)
-
             # Horizontally stack them
             combined1 = np.hstack((frame, depth_visual))
-            black_img = np.zeros_like(frame)
+            #black_img = np.zeros_like(frame)
             combined2 = np.hstack((contour_img, contour_img_boundaries))
             # Vertically stack them
             combined = np.vstack((combined1, combined2))
 
             # Show the combined video
             cv2.imshow("Test Unknown Detection", combined)
+
+            frame_count += 1
             # Press 'q' to quit
             if cv2.waitKey(1) == 27:
                 break

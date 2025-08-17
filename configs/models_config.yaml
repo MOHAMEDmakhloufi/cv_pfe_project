@@ -1,5 +1,5 @@
 yolo_model_path: "../data/external/best.pt"
-yolo_inference_conf: 0.7
+yolo_inference_conf: 0.8
 
 midas_model_type: "DPT_Hybrid"
 midas_device: "mps"

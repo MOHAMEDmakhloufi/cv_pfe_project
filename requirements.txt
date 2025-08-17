@@ -1,7 +1,7 @@
 opencv-python
-ultralytics
-PyYAML
-torch
-gTTS
-pygame
+gtts
 numpy
+pygame
+torch
+ultralytics
+pyyaml

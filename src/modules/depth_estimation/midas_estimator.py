@@ -68,6 +68,22 @@ class MidasEstimator(Estimator):
             print(f"Error during depth prediction: {e}")
             return None
 
+    def save_depth_map_heatmap(self,depth_map: np.ndarray, file_path: str):
+        import matplotlib.pyplot as plt
+        if depth_map is not None:
+            # Create a new figure
+            plt.figure()
+            # Display depth map with 'inferno' colormap
+            plt.imshow(depth_map, cmap='inferno')
+            plt.title("Estimated Depth")
+            plt.axis('off')
+            # Save the figure
+            plt.savefig(file_path, bbox_inches='tight', pad_inches=0, dpi=300)
+            plt.close()  # Close the figure to free memory
+            print(f"Depth map saved as {file_path}")
+        else:
+            print("No depth map to save")
+
     def _normalize_depth_map(self, depth_map):
         depth_map = np.maximum(depth_map, 0)
         depth_min = depth_map.min()
@@ -77,6 +93,14 @@ class MidasEstimator(Estimator):
         else:
             normalized_depth = np.zeros_like(depth_map)
         return normalized_depth
+
+    def _normalize_to_0_255(self, img):
+        normalized = cv2.normalize(img, None, 0, 255, cv2.NORM_MINMAX)
+        return normalized.astype(np.uint8)
+
+    def get_visual_depth_map(self, depth_map):
+        depth_visual = self._normalize_to_0_255(depth_map)
+        return cv2.cvtColor(depth_visual, cv2.COLOR_GRAY2BGR)
 
     def _get_optimal_frames(self, tracked_objects):
         tracked_objects_frames = dict()
@@ -114,8 +138,13 @@ class MidasEstimator(Estimator):
 
     def estimate_depth_from_frames(self, frames_dict) -> dict:
         frames_depth_estimation = dict()
+        import os
+        output_dir = "../outputs/frames_depth_estimation/"
+        os.makedirs(output_dir, exist_ok=True)
         for frame_id, frame in frames_dict.items():
             sample_depth_map = self.estimate_depth(frame)
+            #output_path = os.path.join(output_dir, f"depth_map_{frame_id}.jpg")
+            #self.save_depth_map_heatmap(sample_depth_map, output_path)
             normalized_depth_map = self._normalize_depth_map(sample_depth_map)
             frames_depth_estimation[frame_id] = normalized_depth_map
         return frames_depth_estimation

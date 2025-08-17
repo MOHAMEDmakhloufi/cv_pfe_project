@@ -70,13 +70,14 @@ class UnknownDetector:
         return exist_unknown_object, bbox, contour_img
 
     def has_unknown_objects_in_depth_frames(self, depth_frames, edge_margin=0.2, box_h_threshold=10):
+
         for frame_id, depth_map in depth_frames.items():
             # Assuming depth_map is already normalized to 0-255 as expected by _find_contours
             normalized_img = self._normalize_to_0_255(depth_map)
             contour_img = self._find_contours(normalized_img)
-            exists, _ = self._detect_objects_from_binary_contour(contour_img, edge_margin, box_h_threshold)
+            exists, bbox = self._detect_objects_from_binary_contour(contour_img, edge_margin, box_h_threshold)
             if exists:
-                return True
-        return False
+                return True, bbox, contour_img, frame_id
+        return False, None, None, None
 
 
